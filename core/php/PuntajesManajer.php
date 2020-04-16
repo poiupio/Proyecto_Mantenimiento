@@ -52,7 +52,7 @@ class PuntajesManajer {
             return $resultado;
         }
 
-        return "";
+        return $query;
     }
 
     public function getAllPuntajeForUsuario($idUsuario) {
@@ -77,7 +77,7 @@ class PuntajesManajer {
         $resultado = $this->dbManager->realizeQuery($query);
 
         if ($resultado == null) {
-            return "tabla materia varia";
+            return "tabla materia vacia";
         } else {
             if (is_array($resultado)) {
                 return json_encode($resultado);
@@ -137,5 +137,9 @@ class PuntajesManajer {
                 return $resultado->num_rows;
             }
         }
+    }
+
+    public function setDBManager($dbManager){
+        $this->dbManager = $dbManager;
     }
 }
