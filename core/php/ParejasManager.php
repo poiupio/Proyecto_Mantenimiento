@@ -58,7 +58,7 @@ class ParejasManager {
     }
 
     public function updatePareja($id, $idMatter, $concept, $definition) {
-        $query = "UPDATE parejas set idmateria = '$idMatter' , concepto = 
+        $query = "UPDATE parejas set idmateria = '$idMatter' , concepto =
         '$concept' , descripcion = '$definition' WHERE id=" . intval($id);
 
         $resultado = $this->dbManager->insertQuery($query);
@@ -87,7 +87,7 @@ class ParejasManager {
         $resultado = $this->dbManager->realizeQuery($query);
 
         if ($resultado == null) {
-            return "";
+            return $query;
         } else {
             if (is_array($resultado)) {
                 return json_encode($resultado);
@@ -114,8 +114,12 @@ class ParejasManager {
         }
     }
 
-    private function setValuesToResult($result) {
+    public function setValuesToResult($result) {
         $couple = array();
+        $coupleList = [];
+        if ($result == $couple){
+            return $coupleList;
+        }
         for ($i = 0; $i < count($result); $i++) {
             $couple['id'] = $result[$i]['id'];
             $couple['idMatter'] = $result[$i]['idmateria'];
@@ -129,5 +133,8 @@ class ParejasManager {
         return $coupleList;
     }
 
-}
+    public function setDBManager($dbManager){
+        $this->dbManager = $dbManager;
+    }
 
+}

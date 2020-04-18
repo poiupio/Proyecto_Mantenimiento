@@ -49,7 +49,7 @@ class DataBaseManager {
     }
 
     public function insertQuery($query) {
-        if ($mysqli->connect_error) {
+        if ($this->mysqli->connect_error) {
             return "Error de conexión: $mysqli->connect_error";
         } else {
             return $this->mysqli->query($query);

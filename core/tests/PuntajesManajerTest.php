@@ -4,6 +4,49 @@ require __DIR__ . "/../php/PuntajesManajer.php";
 
 class PuntajesManajerTest extends TestCase
 {
+    // Set puntaje //
+    /** @test */
+    public function testSetPuntaje()
+    {
+        $stub = $this->createMock(DataBaseManager::class);
+        $response = TRUE;
+        $stub->expects($this->once())
+             ->method('insertQuery')
+             ->willReturn($response);
+        $adminPuntaje = PuntajesManajer::getInstance();
+        $adminPuntaje->setDBManager($stub);
+        $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $length=10;
+        $idUsuario=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+        $idMateria=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+        $fecha=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+        $dificultad=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+        $puntaje=rand(0,100);
+        $foundPeers=rand(0,50);
+        $query = "INSERT INTO puntajes (id_usuario,id_materia,fecha,dificultad,puntaje,parejas_encontradas) VALUES('$idUsuario','$idMateria','$fecha','$dificultad',$puntaje,$foundPeers)";
+        $this->assertEquals($query, $adminPuntaje->setPuntaje($idUsuario,$idMateria,$fecha,$dificultad,$puntaje,$foundPeers));
+    }
+
+    //     Unable to connect to DB
+    /** @test */
+    public function testCantConnectToDBWhenSetPuntaje()
+    {
+        $stub = $this->createMock(DataBaseManager::class);
+        $response = "Error de conexion: Can't connect to MySQL server";
+        $stub->expects($this->once())
+             ->method('insertQuery')
+             ->willReturn($response);
+        $adminPuntaje = PuntajesManajer::getInstance();
+        $adminPuntaje->setDBManager($stub);
+        $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $length=10;
+        $idUsuario=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+        $idMateria=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+        $fecha=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+        $dificultad=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+        $this->assertEquals("Error de conexion: Can't connect to MySQL server", $adminPuntaje->deletePuntaje($idUsuario,$idMateria,$fecha,$dificultad));
+    }
+
     //     Delete puntaje     //
     //     Permite eliminar el puntaje seleccionado que se encuentren en la base de datos     //
     /** @test */
@@ -54,7 +97,7 @@ class PuntajesManajerTest extends TestCase
         $fecha=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
         $dificultad=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
         //comparamos si la respuesta es vacía (devuelve "" en caso de ser boolean)
-        $this->assertEquals("Error de conexion: Can't connect to MySQL server", $adminPuntaje->deletePuntaje($idUsuario,$idMateria,$fecha,$dificultad));
+        $this->assertEquals($response, $adminPuntaje->deletePuntaje($idUsuario,$idMateria,$fecha,$dificultad));
     }
 
     //     Obtener todos los puntajes de un usuario     //

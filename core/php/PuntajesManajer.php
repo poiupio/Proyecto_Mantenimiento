@@ -40,7 +40,7 @@ class PuntajesManajer {
         if (!is_bool($resultado)) {
             return $resultado;
         }
-        return "";
+        return $query;
     }
 
     public function deletePuntaje($idUsuario,$idMateria,$fecha,$dificultad){
