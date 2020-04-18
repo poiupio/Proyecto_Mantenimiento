@@ -216,6 +216,60 @@ class UserManagerTest extends TestCase
         $this->assertEquals("Tabla usuario vacia", $puntajeManajer->getUserById($id));
     }
 
+    //    Obtener todos los usuarios    //
+    /** @test */
+    public function testGetAllUsers(){
+        // Create a stub for the DataBaseManager class.
+        $stub = $this->createMock(DataBaseManager::class);
+
+        // Configure the stub.
+        $response = [array(
+            'id' => '1',
+            'nombre' => 'pepe pecas',
+            'tipo' => 'facil',
+            'clave' => '666'
+        )];
+
+        $stub->expects($this->once())
+             ->method('realizeQuery')
+             ->willReturn($response);
+
+        //Asignamos el mock en el constructor de PuntajesManajer
+        $puntajeManajer =  UserManager::getInstance();
+        $puntajeManajer->setDBManager($stub);
+
+        $response = [array(
+            'id' => '1',
+            'name' => 'pepe pecas',
+            'type' => 'facil',
+            'password' => '666'
+        )];
+        
+        $response = array($response);
+        //comparamos si la respuesta es vacía (devuelve "" en caso de ser boolean)
+        $this->assertEquals(json_encode($response), $puntajeManajer->getAllUsers());
+    }
+
+    //    No se peuden obtener los usuarios     //
+    /** @test */
+    public function testCantGetAllUsers(){
+        // Create a stub for the DataBaseManager class.
+        $stub = $this->createMock(DataBaseManager::class);
+
+        // Configure the stub.
+        $response = null;
+        $stub->expects($this->once())
+             ->method('realizeQuery')
+             ->willReturn($response);
+
+        //Asignamos el mock en el constructor de PuntajesManajer
+        $puntajeManajer =  UserManager::getInstance();
+        $puntajeManajer->setDBManager($stub);
+
+        //comparamos si la respuesta es vacía (devuelve "" en caso de ser boolean)
+        $this->assertEquals("Tabla usuario vacia", $puntajeManajer->getAllUsers());
+    }
+
     //    Eliminar un usuario     //
     /** @test */
     public function testDeleteUser(){
