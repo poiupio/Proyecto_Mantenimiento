@@ -4,6 +4,111 @@ require __DIR__ . "/../php/ParejasManager.php";
 
 class ParejasManagerTest extends TestCase
 {
+    //Pruebas de ParejasManager
+    /** @test */
+    public function testGetPareja()
+    {
+        $db = $this->createMock(DataBaseManager::class);
+        $response = [array(
+            '0' => [array(
+                'id' => '1',
+                'idmateria' => '1',
+                'concepto' => 'concepto1',
+                'descripcion' => 'descripcion1',
+
+            )]
+        )];
+        $db->expects($this->once())->method('realizeQuery')->willReturn($response);
+        $idMateria = 1;
+        $id = 1;
+        $adminPareja = ParejasManager::getInstance();
+        $adminPareja->setDBManager($db);
+        $this->assertEquals(json_encode($response), $adminPareja->getPareja($idMateria, $id));
+    }
+
+    //Pruebas de ParejasManager
+    /** @test */
+    public function testCanNotGetPareja()
+    {
+        $db = $this->createMock(DataBaseManager::class);
+        $response = null;
+        $db->expects($this->once())->method('realizeQuery')->willReturn($response);
+
+        $idMateria = 1;
+        $id = 1;
+        $adminPareja = ParejasManager::getInstance();
+        $adminPareja->setDBManager($db);
+        $this->assertEquals("tabla de parejas vacia", $adminPareja->getPareja($idMateria, $id));
+    }
+
+    //Pruebas de ParejasManager
+    /** @test */
+    public function testSetPareja()
+    {
+        $db = $this->createMock(DataBaseManager::class);
+        $response = TRUE;
+        $db->expects($this->once())->method('insertQuery')->with(
+            $this->stringContains("INSERT INTO parejas (concepto,descripcion,idmateria) VALUES('concepto1','descripcion1','1')")
+        )->willReturn($response);
+
+        $idmateria = 1;
+        $concepto = "concepto1";
+        $descripcion = "descripcion1";
+        $adminPareja = ParejasManager::getInstance();
+        $adminPareja->setDBManager($db);
+        $query = "INSERT INTO parejas (concepto,descripcion,idmateria) VALUES('$concepto','$descripcion','$idmateria')";
+        $this->assertEquals($query, $adminPareja->setPareja($idmateria, $concepto, $descripcion));
+    }
+
+    //Pruebas de ParejasManager
+    /** @test */
+    public function testCanNotSetPareja()
+    {
+        $db = $this->createMock(DataBaseManager::class);
+        $response = "Error de conexion: Can't connect to MySQL server";
+        $db->expects($this->once())->method('insertQuery')->willReturn($response);
+        $idMateria = 1;
+        $concepto = "concepto1";
+        $descripcion = "descripcion1";
+        $adminPareja = ParejasManager::getInstance();
+        $adminPareja->setDBManager($db);
+        $this->assertEquals("Error de conexion: Can't connect to MySQL server", $adminPareja->setPareja($idMateria, $concepto, $descripcion));
+    }
+
+    //Pruebas de ParejasManager
+    /** @test */
+    public function testUpdatePareja()
+    {
+        $db = $this->createMock(DataBaseManager::class);
+        $response = TRUE;
+        $db->expects($this->once())->method('insertQuery')->willReturn($response);
+        $id = 1;
+        $idmateria = 1;
+        $concepto = "descripcion1";
+        $definition = "definicion1";
+        $adminPareja = ParejasManager::getInstance();
+        $adminPareja->setDBManager($db);
+        $query = "UPDATE parejas set idmateria = '$idmateria' , concepto = '$concepto' , descripcion = '$definition' WHERE id=" . intval($id);
+        $this->assertEquals($query, $adminPareja->updatePareja($id, $idmateria, $concepto, $definition));
+    }
+
+    //Pruebas de ParejasManager
+    /** @test */
+    public function testCanNotUpdatePareja()
+    {
+        $db = $this->createMock(DataBaseManager::class);
+        $response = "Error de conexion: Can't connect to MySQL server";
+        $db->expects($this->once())->method('insertQuery')->willReturn($response);
+
+        $id = 1;
+        $idMatter = 1;
+        $concept = "descripcion1";
+        $definition = "definicion1";
+        $adminPareja = ParejasManager::getInstance();
+        $adminPareja->setDBManager($db);
+        $this->assertEquals("Error de conexion: Can't connect to MySQL server", $adminPareja->setPareja($id, $idMatter, $concept, $definition));
+    }
+
     //     Delete pareja     //
     /** @test */
     public function testDeletePareja()
@@ -148,5 +253,4 @@ class ParejasManagerTest extends TestCase
         $adminPareja = ParejasManager::getInstance();
         $this->assertEquals($result, $adminPareja->setValuesToResult($result));
     }
-
 }

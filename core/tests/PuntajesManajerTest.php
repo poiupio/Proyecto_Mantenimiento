@@ -44,7 +44,7 @@ class PuntajesManajerTest extends TestCase
         $idMateria=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
         $fecha=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
         $dificultad=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
-        $this->assertEquals("Error de conexion: Can't connect to MySQL server", $adminPuntaje->deletePuntaje($idUsuario,$idMateria,$fecha,$dificultad));
+        $this->assertEquals($response, $adminPuntaje->deletePuntaje($idUsuario,$idMateria,$fecha,$dificultad));
     }
 
     //     Delete puntaje     //

@@ -57,7 +57,7 @@ class MateriasManager{
         if(!is_bool($resultado)){
             return $resultado;
         }
-        return "";
+        return $query;
     }
 
 
@@ -69,7 +69,7 @@ class MateriasManager{
         if(!is_bool($resultado)){
             return $resultado;
         }
-        return "";
+        return $query;
     }
 
     public function deleteMateria($idMateria){
@@ -81,7 +81,7 @@ class MateriasManager{
             return $resultado;
         }
 
-        return "";
+        return $query;
     }
 
     public function getAllMateria(){
@@ -117,5 +117,9 @@ class MateriasManager{
         }
 
         return $matterList;
+    }
+
+    public function setDBManager($dbManager){
+        $this->dbManager = $dbManager;
     }
 }

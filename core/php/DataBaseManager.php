@@ -11,7 +11,8 @@ define('USERNAME', 'root');
 define('PASSWORD', '');
 define('DB', 'memorama');
 
-class DataBaseManager {
+class DataBaseManager
+{
 
     private $mysqli;
     private static $_instance = null;
@@ -20,7 +21,8 @@ class DataBaseManager {
      * DataBaseManager constructor.
      * @param $mysqli
      */
-    private function __construct() {
+    private function __construct()
+    {
         $this->mysqli = new mysqli(SERVER, USERNAME, PASSWORD, DB);
         if ($this->mysqli->connect_errno) {
             echo "Fallo al conectar a MySQL: (" . $this->mysqli->connect_errno . ") " . $this->mysqli->connect_error;
@@ -32,31 +34,32 @@ class DataBaseManager {
         }
     }
 
-    public function __destruct() {
+    public function __destruct()
+    {
         self::$_instance = null;
         $this->mysqli = null;
     }
 
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (self::$_instance === null) {
             self::$_instance = new DataBaseManager();
         }
         return self::$_instance;
     }
 
-    final public function __clone() {
+    final public function __clone()
+    {
         throw new Exception('Only one instance is allowed');
     }
 
-    public function insertQuery($query) {
-        if ($this->mysqli->connect_error) {
-            return "Error de conexión: $mysqli->connect_error";
-        } else {
-            return $this->mysqli->query($query);
-        }
+    public function insertQuery($query)
+    {
+        return $this->mysqli->query($query);
     }
 
-    public function realizeQuery($query) {
+    public function realizeQuery($query)
+    {
         if ($result = $this->mysqli->query($query)) {
             $result = $result->fetch_all(MYSQLI_ASSOC);
             return $result;
@@ -65,12 +68,14 @@ class DataBaseManager {
         }
     }
 
-    public function close() {
+    public function close()
+    {
         $this->mysqli->close();
     }
 
-    public function setMysqli($mysqli){
-        $this->mysqli = $mysqli;
+    public function set_msqli($msqli)
+    {
+        $this->mysqli = $msqli;
     }
 
 }
