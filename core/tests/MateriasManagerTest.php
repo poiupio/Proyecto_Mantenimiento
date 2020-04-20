@@ -258,4 +258,29 @@ class MateriasManagerTest extends TestCase
 
         $this->assertEquals("tabla materia vacia", $adminMateria->getAllMateria());
     }
+    
+    //     Asigna valores al resultado    //
+    /** @test */
+    public function testSetValuesToResult()
+    {
+        $input = [array(
+                'id' => '1',
+                'nombre' => 'Roberto Navarro'
+        )];
+        $output = [array(
+            'id' => '1',
+            'name' => 'Roberto Navarro'
+        )];
+        $adminPareja = MateriasManager::getInstance();
+        $this->assertEquals($output, $adminPareja->setValuesToResult($input));
+    }
+
+    //     Asigna valores al resultado, sin embargo, no hay valores para asignar    //
+    /** @test */
+    public function testMaloSetValuesToResult()
+    {
+        $result = array();
+        $adminPareja = MateriasManager::getInstance();
+        $this->assertEquals($result, $adminPareja->setValuesToResult($result));
+    }
 }

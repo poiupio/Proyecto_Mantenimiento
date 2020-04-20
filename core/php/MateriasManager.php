@@ -103,11 +103,12 @@ class MateriasManager{
         }
     }
 
-
-
-
-    private function setValuesToResult($result){
+    public function setValuesToResult($result){
         $matter = array();
+        $matterList =[];
+        if ($result == $matter){
+            return $matterList;
+        }
         for ($i=0;$i<count($result);$i++) {
             $matter['id'] = $result[$i]['id'];
             $matter['name'] = $result[$i]['nombre'];

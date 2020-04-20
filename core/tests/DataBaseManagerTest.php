@@ -114,4 +114,42 @@ class DataBaseManagerTest extends TestCase
         $this->assertEquals($response, $result);
 
     }
+
+    /**
+     * @test
+     */
+    public function testClose()
+    {
+        $stub = $this->createMock(mysqli::class);
+        $response = true;
+        $stub->expects($this->once())->method('close')->willReturn($response);
+
+        $DBM = DataBaseManager::getInstance();
+        $DBM->set_msqli($stub);
+
+        //When
+        $result = $DBM->close();
+
+        //Then
+        $this->assertEquals(true, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function testCanNotClose()
+    {
+        $stub = $this->createMock(mysqli::class);
+        $response = false;
+        $stub->expects($this->once())->method('close')->willReturn($response);
+
+        $DBM = DataBaseManager::getInstance();
+        $DBM->set_msqli($stub);
+
+        //When
+        $result = $DBM->close();
+
+        //Then
+        $this->assertEquals(false, $result);
+    }
 }

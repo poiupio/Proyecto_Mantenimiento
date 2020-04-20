@@ -70,7 +70,7 @@ class DataBaseManager
 
     public function close()
     {
-        $this->mysqli->close();
+        return $this->mysqli->close();
     }
 
     public function set_msqli($msqli)
