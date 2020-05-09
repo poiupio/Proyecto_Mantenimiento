@@ -10,7 +10,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                junit 'vendor/phpunit/phpunit/phpunit.xml'
+                junit '--bootstrap ./vendor/autoload.php core/tests'
             }
         }
         stage('Deploy') {
