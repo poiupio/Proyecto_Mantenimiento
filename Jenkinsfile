@@ -10,7 +10,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                phpunit 'vendor/phpunit/phpunit/phpunit.xml'
+                junit 'vendor/phpunit/phpunit/phpunit.xml'
             }
         }
         stage('Deploy') {
