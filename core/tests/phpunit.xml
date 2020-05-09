@@ -16,7 +16,7 @@
         </testsuite>
 
         <testsuite name="tests">
-            <directory>core/tests</directory>
+            <directory>.</directory>
         </testsuite>
     </testsuites>
 
