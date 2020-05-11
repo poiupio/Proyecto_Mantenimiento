@@ -16,10 +16,11 @@ pipeline {
             }
             post {
                 success {
-                    echo 'Compile stage successful'
+                    echo 'Testing successful'
+                    
                 }
                 failure {
-                    echo 'Compile stage failed'
+                    echo 'Testing stage failed'
                 }
             }
         }
