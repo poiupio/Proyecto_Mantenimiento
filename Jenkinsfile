@@ -17,7 +17,8 @@ pipeline {
             post {
                 success {
                     echo 'Testing successful'
-                    
+                    bat 'git fetch'
+
                 }
                 failure {
                     echo 'Testing stage failed'
