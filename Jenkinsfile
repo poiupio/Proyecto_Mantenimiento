@@ -9,8 +9,18 @@ pipeline {
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
-                bat 'vendor/bin/phpunit --bootstrap ./vendor/autoload.php core/tests --debug --log-junit results/phpunit.xml'
+                catchError {
+                    echo 'Testing..'
+                    bat 'vendor/bin/phpunit --bootstrap ./vendor/autoload.php core/tests --debug --log-junit results/phpunit.xml'
+                }
+            }
+            post {
+                success {
+                    echo 'Compile stage successful'
+                }
+                failure {
+                    echo 'Compile stage failed'
+                }
             }
         }
         stage('Deploy') {
