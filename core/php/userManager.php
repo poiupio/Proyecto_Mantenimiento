@@ -29,26 +29,35 @@ class UserManager{
     }
 
     public function setUser($name, $password, $tipo){
+        
         $query = "INSERT INTO usuario (nombre, clave, tipo) VALUES('$name','$password','$tipo')";
-
+        
         $resultado = $this->dbManager->insertQuery($query);
-
+        
+        if($tipo===null){
+            return "El tipo no puede ser nulo";
+        }
+        
         if(!is_bool($resultado)){
             return "$resultado";
         }
-        return "";
-
+        return $query;
     }
 
     public function updateUser($id,$name, $password, $tipo){
+
         $query = "UPDATE usuario set nombre = '$name' , clave = '$password' , tipo = '$tipo' WHERE id=".intval($id);
 
         $resultado = $this->dbManager->insertQuery($query);
 
+        if($tipo===null){
+            return "El tipo no puede ser nulo";
+        }
+
         if(!is_bool($resultado)){
             return $resultado;
         }
-        return "";
+        return $query;
     }
 
     public function getUser($name, $password){
@@ -96,7 +105,7 @@ class UserManager{
             return "$resultado";
         }
 
-        return "";
+        return $query;
     }
 
 
@@ -127,11 +136,15 @@ class UserManager{
             $users['name'] = $result[$i]['nombre'];
             $users['type'] = $result[$i]['tipo'];
             $users['password'] = $result[$i]['clave'];
-
+            
             $usersList[] = $users;
-
+            
         }
-
+        
         return $usersList;
+    }
+
+    public function setDBManager($dbManager){
+        $this->dbManager = $dbManager;
     }
 }

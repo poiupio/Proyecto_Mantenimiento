@@ -57,7 +57,7 @@ class MateriasManager{
         if(!is_bool($resultado)){
             return $resultado;
         }
-        return "";
+        return $query;
     }
 
 
@@ -69,7 +69,7 @@ class MateriasManager{
         if(!is_bool($resultado)){
             return $resultado;
         }
-        return "";
+        return $query;
     }
 
     public function deleteMateria($idMateria){
@@ -81,7 +81,7 @@ class MateriasManager{
             return $resultado;
         }
 
-        return "";
+        return $query;
     }
 
     public function getAllMateria(){
@@ -103,11 +103,12 @@ class MateriasManager{
         }
     }
 
-
-
-
-    private function setValuesToResult($result){
+    public function setValuesToResult($result){
         $matter = array();
+        $matterList =[];
+        if ($result == $matter){
+            return $matterList;
+        }
         for ($i=0;$i<count($result);$i++) {
             $matter['id'] = $result[$i]['id'];
             $matter['name'] = $result[$i]['nombre'];
@@ -117,5 +118,9 @@ class MateriasManager{
         }
 
         return $matterList;
+    }
+
+    public function setDBManager($dbManager){
+        $this->dbManager = $dbManager;
     }
 }
