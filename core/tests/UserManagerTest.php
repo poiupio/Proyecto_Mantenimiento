@@ -37,9 +37,9 @@ class UserManagerTest extends TestCase
         $name=$this->generateWord();
         $password=$this->generateNumber();
         $type=$this->generateWord();
-
+        $query = "INSERT INTO usuario (nombre, clave, tipo) VALUES('$name','$password','$type')";
         //comparamos si la respuesta es vacía (devuelve "" en caso de ser boolean)
-        $this->assertEquals("", $setUser->setUser($name, $password, $type));
+        $this->assertEquals($query, $setUser->setUser($name, $password, $type));
     }
 
     //    No permite crear un usuario sin tipo    //
@@ -88,9 +88,9 @@ class UserManagerTest extends TestCase
         $newName=$this->generateWord();
         $password=$this->generateNumber();
         $type=$this->generateWord();
-
+        $query = "UPDATE usuario set nombre = '$newName' , clave = '$password' , tipo = '$type' WHERE id=".intval($idUsuario);
         //comparamos si la respuesta es vacía (devuelve "" en caso de ser boolean)
-        $this->assertEquals("", $updateUser->updateUser($idUsuario,$newName,$password,$type));
+        $this->assertEquals($query, $updateUser->updateUser($idUsuario,$newName,$password,$type));
     }
 
     //    No permite cambiar los valores de un usuario sin tipo    //
@@ -288,9 +288,9 @@ class UserManagerTest extends TestCase
 
         //Creamos strings aleatorios
         $id = $this->generateNumber();
-
+        $query = "DELETE FROM usuario WHERE id = $id";
         //comparamos si la respuesta es vacía (devuelve "" en caso de ser boolean)
-        $this->assertEquals("", $puntajeManajer->deleteUser($id));
+        $this->assertEquals($query, $puntajeManajer->deleteUser($id));
     }
 
     //    Eliminar un usuario que no existe    //
