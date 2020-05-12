@@ -46,6 +46,29 @@ class PuntajesManajerTest extends TestCase
         $dificultad=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
         $this->assertEquals($response, $adminPuntaje->deletePuntaje($idUsuario,$idMateria,$fecha,$dificultad));
     }
+
+    //     Delete puntaje     //
+    //     Permite eliminar el puntaje seleccionado que se encuentren en la base de datos     //
+    /** @test */
+    public function testDeletePuntaje()
+    {
+        // Create a stub for the DataBaseManager class.
+        $stub = $this->createMock(DataBaseManager::class);
+        // Configure the stub.
+        $response = TRUE;
+        $stub->expects($this->once())
+             ->method('insertQuery')
+             ->willReturn($response);
+        //Asignamos el mock en el constructor de PuntajesManajer
+        $adminPuntaje = PuntajesManajer::getInstance();
+        $adminPuntaje->setDBManager($stub);
+        //Creamos strings aleatorios
+        $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $length=10;
+        $idUsuario=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+        $idMateria=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+        $fecha=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+        $dificultad=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
         $query = "DELETE FROM puntajes WHERE id_usuario = '$idUsuario' AND id_materia = '$idMateria' AND fecha='$fecha' AND '$dificultad'";
         //comparamos si la respuesta es vacía (devuelve "" en caso de ser boolean)
         $this->assertEquals($query, $adminPuntaje->deletePuntaje($idUsuario,$idMateria,$fecha,$dificultad));
@@ -75,7 +98,6 @@ class PuntajesManajerTest extends TestCase
         $dificultad=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
         //comparamos si la respuesta es vacía (devuelve "" en caso de ser boolean)
         $this->assertEquals($response, $adminPuntaje->deletePuntaje($idUsuario,$idMateria,$fecha,$dificultad));
-
     }
 
     //     Obtener todos los puntajes de un usuario     //
