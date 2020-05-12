@@ -17,7 +17,7 @@ pipeline {
             post {
                 success {
                     echo 'Testing successful'
-                    bat 'cd %mantenimiento_uady% & git pull origin'
+                    bat 'cd ${env.PROY_URL} & git pull origin'
 
                 }
                 failure {
