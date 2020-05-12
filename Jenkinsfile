@@ -17,7 +17,7 @@ pipeline {
             post {
                 success {
                     echo 'Testing successful'
-                    bat 'cd C:/xampp/htdocs/Proyecto_Mantenimiento & git pull origin'
+                    bat 'cd %mantenimiento_uady% & git pull origin'
 
                 }
                 failure {
