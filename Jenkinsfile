@@ -17,7 +17,7 @@ pipeline {
             post {
                 success {
                     echo 'Testing successful'
-                    bat 'D: & cd %PROY_URL% & git pull origin'
+                    bat '%PROY_DISK% & cd %PROY_URL% & git pull origin'
 
                 }
                 failure {
