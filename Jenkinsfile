@@ -17,6 +17,7 @@ pipeline {
             post {
                 success {
                     echo 'Testing successful'
+                    bat 'D:'
                     bat 'cd D:/xampp/htdocs/proyectos/laravel/Proyecto_Mantenimiento'
                     bat 'git fetch'
 
