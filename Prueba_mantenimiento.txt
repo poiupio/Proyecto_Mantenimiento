@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-Prueba de jenkins 4 recargado
-=======
-Prueba de jenkins 4
->>>>>>> fd2ad3581c830a9e963a13142b148d53280bcded
+Prueba de jenkins 4 recargado +
